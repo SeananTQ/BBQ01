@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Food Holder Layer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: BackGround Layer
+    uniqueID: 1804397837
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Sprite
+    uniqueID: 3416330613
+    locked: 0
+  - name: Holder Layer
+    uniqueID: 3515096375
+    locked: 0
+  - name: Food Layer
+    uniqueID: 651507375
+    locked: 0
+  - name: Effect Layer
+    uniqueID: 369971573
+    locked: 0
+  - name: UI Layer
+    uniqueID: 717504271
+    locked: 0
