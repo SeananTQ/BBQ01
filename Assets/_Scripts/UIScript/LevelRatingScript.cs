@@ -25,7 +25,7 @@ public class LevelRatingScript : MonoBehaviour {
 
     public Tween SetHpBar(float rate)
     {
-       return  hpBar.SetHpRate(rate);
+       return  hpBar.SetHpRate(rate,false);
     }
 
     public void SetStarCount(int count)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
+public class Customer : MonoBehaviour, IFoodHolder, IPoolElement
 {
 
 
@@ -12,7 +12,7 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
 
     private FoodSprite currentFood;
     public int index;
-    public int actorWeight=100;
+    public int actorWeight = 100;
 
     public float maxPatience = 1000;
     public float curPatience;
@@ -26,8 +26,8 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
 
 
 
-    private  FoodTask foodTask;
-    private bool onOrderFood=false;
+    private FoodTask foodTask;
+    private bool onOrderFood = false;
 
     private List<Transform> orderFoodTfList;
 
@@ -35,12 +35,13 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
 
 
 
-    void Start () {
+    void Start()
+    {
         foodTask = taskTransform.GetComponent<FoodTask>();
 
 
         InitData();
-       // OrderFood();
+        // OrderFood();
     }
 
 
@@ -59,24 +60,25 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
         {
             tf.gameObject.SetActive(false);
         }
-        actorList[Random.Range(0, actorList.Count)].gameObject.SetActive( true);
-        
+        actorList[Random.Range(0, actorList.Count)].gameObject.SetActive(true);
+
 
     }
 
 
-    void Update () {
+    void Update()
+    {
 
         switch (state)
         {
             case CUST_STATE.ORDER:
                 //如果正在点餐中
-                LosePatience(); 
+                LosePatience();
                 break;
-                
+
 
             case CUST_STATE.GOHOME:
-                
+
                 GoHome();
                 break;
         }
@@ -97,7 +99,7 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
 
 
 
-        Transform tempTf=null;
+        Transform tempTf = null;
         //在点餐清单中查找那个符合条件的食物，
         foreach (Transform temp in orderFoodTfList)
         {
@@ -131,12 +133,14 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
                 state = CUST_STATE.GOHOME;
             });
         }
-        }
+    }
 
     public void DestroySelf()
     {
-        ObjectPoolScript.Instance.RecycleObject(transform, ObjectNameID.CUSTOMER_1);
-    }   
+        //  ObjectPoolScript.Instance.RecycleObject(transform, ObjectNameID.CUSTOMER_1);
+        Destroy(transform.gameObject);
+
+    }
 
 
 
@@ -157,7 +161,7 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
         int orderCount = 1;
         int index = 1;
         //按照顺序生成食物
-        for (int i = 0;i<orderCount ; i++)
+        for (int i = 0; i < orderCount; i++)
         {
             if (orderCount == 1)
             {
@@ -180,14 +184,14 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
         taskTransform.DOScale(1, 1f).SetEase(Ease.InOutElastic);
 
 
-        transform.position =new  Vector3(transform.position .x, transform.position .y,0);//还原z轴
-       state = CUST_STATE.ORDER;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);//还原z轴
+        state = CUST_STATE.ORDER;
     }
 
     public Transform RandFoodTask()
     {
         Transform temp = null;
-        int tempRand = Random.Range(0, 4)+1;//1-4
+        int tempRand = Random.Range(0, 4) + 1;//1-4
 
 
 
@@ -248,8 +252,8 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
 
     public void LosePatience()
     {
-        this.curPatience -= GameConfig.PATIENCE_ATTACK*Time.deltaTime;
-  
+        this.curPatience -= GameConfig.PATIENCE_ATTACK * Time.deltaTime;
+
         if (curPatience <= 0)
         {
 
@@ -267,12 +271,13 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
     public void OverTime()
     {
         state = CUST_STATE.ANGRY;
-  
+
         //收回任务板
-        taskTransform.DOScale(0, 0.2f).OnComplete(()=> {
+        taskTransform.DOScale(0, 0.2f).OnComplete(() =>
+        {
             //对玩家信誉展开攻击
-        AttackPlayer();
-         state = CUST_STATE.GOHOME;
+            AttackPlayer();
+            state = CUST_STATE.GOHOME;
 
 
         });
@@ -290,10 +295,14 @@ public class Customer : MonoBehaviour ,IFoodHolder,IPoolElement
     public void GoHome()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, GameConfig.CUSTOMER_GOHOME_Z_OFFSET);
-       state = CUST_STATE.DISABLE;
-        CustomerManager.Instance.CustomerGoHome(this);
+        state = CUST_STATE.DISABLE;
+        Tween tween =CustomerManager.Instance.CustomerGoHome(this);
+        tween.OnComplete(DestroySelf);
 
     }
+
+
+
 
     public void MoveWalk(Vector3 pos)
     {

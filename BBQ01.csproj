@@ -286,6 +286,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets/_Scripts/MyClass/Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data">
+      <HintPath>Assets/_Scripts/MyClass/System.Data.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/Users/唐秋/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -307,12 +310,10 @@
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/唐秋/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data">
-      <HintPath>Assets/_Scripts/MyClass/System.Data.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\BackGround.cs" />
+    <Compile Include="Assets\_Scripts\CSceneManager.cs" />
     <Compile Include="Assets\_Scripts\Customer.cs" />
     <Compile Include="Assets\_Scripts\CustomerManager.cs" />
     <Compile Include="Assets\_Scripts\Dish.cs" />
@@ -351,6 +352,7 @@
     <Compile Include="Assets\_Scripts\UIScript\UI_StarScript.cs" />
     <Compile Include="Assets\_Scripts\UIScript\UI_WindowScriptBase.cs" />
     <Compile Include="Assets\_Scripts\UIScript\UIManager.cs" />
+    <Compile Include="Assets\_Scripts\UIScript\Window_WinStageScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugs\DOTween.XML" />

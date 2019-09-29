@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
 
     public Transform tokenBarRoot;
 
+
+    public bool isEndGame = false;
+    public bool canCtrlSprite = true; //用于禁止控制游戏内的物体，禁止使用道具
+
     private void Awake()
     {
         Instance = this;
@@ -127,6 +131,42 @@ public class GameManager : MonoBehaviour
             tempCount = 1;
         }
         UIManager.Instance.SetLevelRating(tempRate, tempCount);
+
+        //满星则游戏胜利
+        if (tempCount == 3)
+        {
+            //游戏已胜利，通知开始判断结束流程 
+            EndGame(3);
+        }
+
+    }
+
+
+
+    private  IEnumerator CheckCustomerAllGoHome()
+    {
+        CustomerManager.Instance.canAddCust = false;
+
+        bool run=true;
+        while (run)
+        {
+            //如果最后一个在场的顾客回到了家则通知游戏结束
+            if (CustomerManager.Instance.isAllGoHome())
+            {
+                run = false;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        GameOver();
+        //通知ui显示窗口
+        UIManager.Instance.ShowWinDialog();
+    }
+
+    private void GameOver()
+    {
+        isEndGame = true;
+        canCtrlSprite = false; //禁止控制游戏内的物体，禁止使用道具
     }
 
     public void SetHeartCount(int value)
@@ -150,4 +190,28 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.SetScore(currentScore);
     }
+
+    public void EndGame(int starCount)
+    {
+        //判断游戏结束时剩余的星数
+        if (starCount == 0)
+        {
+            //游戏失败
+            UIManager.Instance.ShowLoseDialog();
+        }
+        else
+        {
+            //准备通知UI弹窗口，先准备数据
+            //游戏胜利
+            StartCoroutine(CheckCustomerAllGoHome());
+
+
+
+        }
+
+
+        //暂停游戏流程
+
+    }
+
 }

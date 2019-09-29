@@ -9,6 +9,7 @@ public class CoverUIManager : MonoBehaviour {
     public static CoverUIManager Instance  {get;private set;}
     //引用区
     public RectTransform win_Stage;
+    public Transform dialogRoot;
 
     public Button button_StageStartGame;
     public Transform stagePageTf;
@@ -22,7 +23,7 @@ public class CoverUIManager : MonoBehaviour {
     }
 
     void Start () {
-        
+
         //开始关卡模式按钮
         button_StageStartGame.onClick.AddListener(() => {
       
@@ -34,8 +35,22 @@ public class CoverUIManager : MonoBehaviour {
             ShowStagePage(false);
         });
 
+
+        CheackPageData();
+
+
     }
-	
+
+
+    private void CheackPageData()
+    {
+        if (CSceneManager.Instance.navigationData.showStagePage)
+        {
+            ShowStagePage(true);
+
+        }
+
+    }
 
 	void Update () {
 		
@@ -43,15 +58,18 @@ public class CoverUIManager : MonoBehaviour {
 
     public void ShowStageWindow(int index)
     {
-        RectTransform rect =  Instantiate(win_Stage, transform);
+        RectTransform rect =  Instantiate(win_Stage, dialogRoot);
         // RectTransform rect = temp.GetComponent<RectTransform>();
 
         UI_StageWindow temp = rect.GetComponent<UI_StageWindow>();
 
         if (temp &&rect)
         {
-            rect.DOScale(0.2f, 0);
-            rect.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
+
+            UIManager.EaseOutBack(rect);
+
+            //rect.DOScale(0.2f, 0);
+            //rect.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
 
             // rect.DOBlendableScaleBy(new Vector3(0.2f,0.2f,1), 0).SetEase(Ease.OutBack);
 
@@ -63,8 +81,8 @@ public class CoverUIManager : MonoBehaviour {
 
     public void StartStageGame(int stageIndex)
     {
-        MySceneManager.Instance.ChangeScene(GameConfig.SceneName.mainTest);
-
+        //TODO 这里应该存储一些关卡数据
+        CSceneManager.Instance.LoadingScene(R.SceneName.mainGame);
     }
 
     public void ShowStagePage(bool value)

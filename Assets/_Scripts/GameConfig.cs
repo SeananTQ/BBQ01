@@ -16,10 +16,7 @@
     public static float PATIENCE_ATTACK=200;
 
 
-    public static class SceneName
-    {
-        public static string mainTest = "mainTest";
-    }
+    public static float DIALOG_SHOW_TIME = 0.5F;//弹出对话框所需时间
     
 
     public enum FOOD_STATE

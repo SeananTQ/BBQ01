@@ -15,11 +15,13 @@ public class CustomerManager : MonoBehaviour {
 
     public List<Transform> customerHomePos;
 
-    float addCustomerRate = 3f;
+    float addCustomerRate = 3f;//补充一个新顾客所需时间
+    public bool canAddCust = true;//允许补充新顾客
     private float currentTime=0f;
 
     int curCustCount;//当前顾客数量
     int maxCustCount = 0;//本关最大顾客数量
+
 
     void Awake()
     {
@@ -35,8 +37,10 @@ public class CustomerManager : MonoBehaviour {
 
         maxCustCount = GameManager.Instance.stageData.customerCount;
     }
-	
-	// Update is called once per frame
+
+
+
+
 	void Update () {
 
         if (GameManager.Instance.gameState == GAME_STATE.PLAY)
@@ -46,7 +50,7 @@ public class CustomerManager : MonoBehaviour {
                 currentTime += Time.deltaTime;
                 if (currentTime >= addCustomerRate)
                 {
-                    if (HaveEmptyPosition)
+                    if (HaveEmptyPosition&& canAddCust)
                     {
                         currentTime = 0;
                         AddCustomer();
@@ -137,7 +141,7 @@ public class CustomerManager : MonoBehaviour {
     }
 
 
-    public void CustomerGoHome(Customer cust)
+    public Tween CustomerGoHome(Customer cust)
     {
         //随机一个回家方向
         Transform tempTf = customerHomePos[Random.Range(0, customerHomePos.Count)];
@@ -145,11 +149,28 @@ public class CustomerManager : MonoBehaviour {
         {
 
             Tween tween=
-          cust.transform.DOMove(tempTf.position,GameConfig.CUSTOMER_GOHOME_TIME);
+            cust.transform.DOMove(tempTf.position,GameConfig.CUSTOMER_GOHOME_TIME);
 
             //在队列中移除该顾客
             SubtractCustomer(cust);
-
+            return tween;
         }
+        return null;
+    }
+
+    public bool  isAllGoHome()
+    {
+
+
+        foreach (bool b in isPositionIdel)
+        {
+            if (b==false)
+            {
+                return false;
+            }
+        }
+
+        //所有的顾客都回家了
+        return true;
     }
 }
